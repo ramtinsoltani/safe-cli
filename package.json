@@ -1,6 +1,6 @@
 {
   "name": "safe-cli",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A simple CLI encryption tool to encrypt and decrypt UTF-8 files using AES-256.",
   "main": "index.js",
   "scripts": {
