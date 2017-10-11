@@ -146,9 +146,9 @@ function Safe() {
 
     },
 
-    detectAlias: (data, alias, noOvershadow) => {
+    detectHook: (data, hook, noOvershadow) => {
 
-      let regex = new RegExp(`@ *${alias.trim()} *{{(.*?)}}`, 'gi');
+      let regex = new RegExp(`@ *${hook.trim()} *{{(.*?)}}`, 'gi');
       let match, matches = [];
 
       if ( noOvershadow ) {
@@ -245,17 +245,17 @@ function Safe() {
 
       }
 
-      if ( (options.A || options.aliases) && (options.S || options.swap) ) {
+      if ( (options.H || options.hook) && (options.S || options.swap) ) {
 
-        console.log(chalk.yellow('The aliases and swap flags cannot be used at the same time!'));
+        console.log(chalk.yellow('The hook and swap flags cannot be used at the same time!'));
 
         process.exit();
 
       }
 
-      if ( (options.A || options.aliases) && (options.T || options.temp) ) {
+      if ( (options.H || options.hook) && (options.T || options.temp) ) {
 
-        console.log(chalk.yellow('The temp and aliases flags cannot be used at the same time!'));
+        console.log(chalk.yellow('The temp and hook flags cannot be used at the same time!'));
 
         process.exit();
 
@@ -275,24 +275,24 @@ function Safe() {
         let decipher = crypto.createDecipher('aes-256-ctr', key);
         let decrypted = decipher.update(data, 'hex', 'utf8') + decipher.final('utf8');
 
-        if ( options.A || options.aliases ) {
+        if ( options.H || options.hook ) {
 
-          let aliases = {};
+          let hooks = {};
           let deferred = q.defer();
 
           deferred.reject(null);
 
-          options.aliases.split(',').forEach(alias => {
+          options.hook.split(',').forEach(hook => {
 
-            if ( ! alias.trim() ) {
+            if ( ! hook.trim() ) {
 
-              console.log(chalk.red(`Alias is undefined!`));
+              console.log(chalk.red(`Hook is undefined!`));
 
               return;
 
             }
 
-            let value = that.util.detectAlias(decrypted, alias, options.N || options.noshadow);
+            let value = that.util.detectHook(decrypted, hook, options.N || options.noshadow);
 
             if ( typeof value === 'object' && value !== null ) {
 
@@ -312,7 +312,7 @@ function Safe() {
               }
 
               if ( undefinedCounter ) console.log(chalk.yellow(
-                `Alias ${alias.trim()} has ${undefinedCounter} undefined value${undefinedCounter > 1 ? 's' : ''}!`
+                `Hook ${hook.trim()} has ${undefinedCounter} undefined value${undefinedCounter > 1 ? 's' : ''}!`
               ));
 
               if ( ! value.length ) return;
@@ -322,40 +322,40 @@ function Safe() {
             }
             else if ( value === null ) {
 
-              console.log(chalk.yellow(`Alias ${alias.trim()} not found!`));
+              console.log(chalk.yellow(`Hook ${hook.trim()} not found!`));
 
               return;
 
             }
             else if ( value === undefined ) {
 
-              console.log(chalk.yellow(`The value of ${alias.trim()} is undefined!`));
+              console.log(chalk.yellow(`The value of ${hook.trim()} is undefined!`));
 
               return;
 
             }
 
-            aliases[alias.trim()] = value;
+            hooks[hook.trim()] = value;
 
           });
 
-          if ( ! Object.keys(aliases).length ) return deferred.promise;
+          if ( ! Object.keys(hooks).length ) return deferred.promise;
 
-          if ( Object.keys(aliases).length > 1 ) {
+          if ( Object.keys(hooks).length > 1 ) {
 
             if ( options.C || options.copy ) {
 
-              clipboard.copy(JSON.stringify(aliases));
+              clipboard.copy(JSON.stringify(hooks));
 
-              console.log(chalk.green(`The values of the found aliases were copied to the clipboard`));
+              console.log(chalk.green(`The values of the found hooks were copied to the clipboard`));
 
             }
             else {
 
-              for ( let alias in aliases ) {
+              for ( let hook in hooks ) {
 
-                console.log(chalk.white(`${alias}: `) + chalk.cyan(
-                  typeof aliases[alias] === 'object' ? aliases[alias].join(', ') : aliases[alias]
+                console.log(chalk.white(`${hook}: `) + chalk.cyan(
+                  typeof hooks[hook] === 'object' ? hooks[hook].join(', ') : hooks[hook]
                 ));
 
               }
@@ -365,7 +365,7 @@ function Safe() {
           }
           else {
 
-            let singleValue = Object.values(aliases)[0];
+            let singleValue = Object.values(hooks)[0];
 
             if ( options.C || options.copy ) {
 
@@ -373,7 +373,7 @@ function Safe() {
                 typeof singleValue === 'object' ? singleValue.join(', ') : singleValue
               );
 
-              console.log(chalk.green(`The value of alias ${Object.keys(aliases)[0]} was copied to the clipboard`));
+              console.log(chalk.green(`The value of hook ${Object.keys(hooks)[0]} was copied to the clipboard`));
 
             }
             else {
@@ -525,9 +525,9 @@ program
   .option('-t, --temp', 'Keeps the process alive and deletes the decrypted file after user hits ENTER')
   .option('-s, --swap', 'Swaps the original file with the decrypted result')
   .option('-r --reveal', 'Reveals the user key input')
-  .option('-a --aliases <values>', 'Decrypts specific parts of the file marked by the given aliases')
-  .option('-c --copy', 'Copies the decryption result in clipboard (only works with the --aliases flag)')
-  .option('-n --noshadow', 'Disables alias overshadowing (only works with the --aliases flag)')
+  .option('-h --hook <values>', 'Decrypts specific parts of the file marked by the given hooks')
+  .option('-c --copy', 'Copies the decryption result in clipboard (only works with the --hook flag)')
+  .option('-n --noshadow', 'Disables data hooks overshadowing (only works with the --hook flag)')
   .action(safe.core.decrypt);
 
 program
