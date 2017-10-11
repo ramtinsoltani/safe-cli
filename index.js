@@ -373,9 +373,7 @@ function Safe() {
                 typeof singleValue === 'object' ? singleValue.join(', ') : singleValue
               );
 
-              console.log(chalk.green(`The value of alias ${
-                typeof singleValue === 'object' ? singleValue.join(', ') : singleValue
-              } was copied to the clipboard`));
+              console.log(chalk.green(`The value of alias ${Object.keys(aliases)[0]} was copied to the clipboard`));
 
             }
             else {
@@ -529,7 +527,7 @@ program
   .option('-r --reveal', 'Reveals the user key input')
   .option('-a --aliases <values>', 'Decrypts specific parts of the file marked by the given aliases')
   .option('-c --copy', 'Copies the decryption result in clipboard (only works with the --aliases flag)')
-  .option('-n --noshadow', 'Disables alias overshadowing')
+  .option('-n --noshadow', 'Disables alias overshadowing (only works with the --aliases flag)')
   .action(safe.core.decrypt);
 
 program
