@@ -13,9 +13,9 @@ Safe CLI is a simple Command Line Integration tool which encrypts and decrypts U
   - **Reveal Key:** Using the `-r` or `--reveal` flags will show the key input.
 - **Decryption:** Use `safe decrypt <file>` to decrypt a file at the given path (the file must have the .safe extension to be recognized, if the provided path doesn't end with .safe, the application will automatically add .safe at the end of it). The decrypted file with the original extension will be created at the same directory.
   - **Swapping:** You can swap the original file with the decrypted .safe file by using either `-s` or `--swap` flags.  
-  _This flag is exclusive and cannot be used in conjunction with the temp and alias flags._
+  _This flag is exclusive and cannot be used in conjunction with the temp and hook flags._
   - **Temporary Decryption:** When using the `-t` or `--temp` flags, the process will be kept open until the user hits <kbd>ENTER</kbd> or kills the process, at which the decrypted file will be deleted.  
-  _This flag is exclusive and cannot be used in conjunction with the swap and alias flags._
+  _This flag is exclusive and cannot be used in conjunction with the swap and hook flags._
   - **Reveal Key:** Using the `-r` or `--reveal` flags will show the key input.
   - **Partial Decryption:** Using the `-h <value>` or `--hook <value>` flags will instruct the application to only decrypt a specific part of the file marked by the given data hooks. The encrypted part will be shown in the console and no file will be written on disk. The value can be either a single data hook, or a comma-separated list of data hooks to retrieve.  
   _This flag is exclusive and cannot be used in conjunction with the swap and temp flags._  
