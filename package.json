@@ -1,6 +1,6 @@
 {
   "name": "safe-cli",
-  "version": "1.4.6",
+  "version": "1.4.7",
   "description": "A simple CLI encryption tool to encrypt and decrypt UTF-8 files using AES-256.",
   "main": "index.js",
   "scripts": {
@@ -18,7 +18,17 @@
     "cli",
     "safe",
     "password",
-    "generator"
+    "generator",
+    "tool",
+    "partial-decryption",
+    "partial",
+    "markup",
+    "handlebars",
+    "swap",
+    "temporary",
+    "data-hook",
+    "data",
+    "hooks"
   ],
   "bugs": {
     "url": "https://github.com/ramtinsoltani/safe-cli/issues"
