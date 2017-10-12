@@ -49,10 +49,10 @@ function Safe() {
 
         if ( repeat !== key ) {
 
-          console.log(chalk.yellow('Keys do not match!'));
-
           key = '';
           repeat = '';
+
+          throw new Error('Keys do not match!');
 
         }
 
