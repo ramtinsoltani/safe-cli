@@ -2,7 +2,7 @@
 
 Safe CLI is a simple Command-line Interface which encrypts and decrypts UTF-8 files using AES-256.
 
-![Screenshot](./screenshot.png)
+![screenshot](https://user-images.githubusercontent.com/7918069/31544542-2922b342-afd0-11e7-9881-db568bc5ff41.png)
 
 # Installation
 
